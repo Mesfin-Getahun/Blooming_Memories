@@ -1,0 +1,10 @@
+Add your real photos to this folder.
+
+Example filenames:
+- memory-1.jpg
+- memory-2.jpg
+- bestie-smile.png
+
+Then update src/content/birthdayContent.ts and replace /gebeya.webp with paths like:
+- /memories/memory-1.jpg
+- /memories/memory-2.jpg
