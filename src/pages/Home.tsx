@@ -3,9 +3,8 @@ import { motion, Variants, useScroll, useTransform } from 'framer-motion';
 import { Star, Heart } from 'lucide-react';
 import Hero from '../components/Hero';
 import PhotoGallery from '../components/PhotoGallery';
-import HighlightNotes from '../components/HighlightNotes';
 import Letter from '../components/Letter';
-import { birthdayContent } from '../content/birthdayContent';
+import HomeShortcutSection from '../components/HomeShortcutSection';
 
 const Home = () => {
   const { scrollYProgress } = useScroll();
@@ -36,29 +35,29 @@ const Home = () => {
       initial="hidden"
       animate="visible"
       style={{ scale }}
-      className="relative z-10 bg-[#fffdfa] origin-top"
+      className="relative z-10 origin-top"
     >
       <Hero />
 
-      <motion.div variants={itemVariants} className="mt-2 mb-8">
+      <motion.div variants={itemVariants}>
+        <HomeShortcutSection />
+      </motion.div>
+
+      <motion.div variants={itemVariants} className="mt-2 mb-10">
         <PhotoGallery featuredOnly />
       </motion.div>
 
-      <motion.div variants={itemVariants}>
-        <HighlightNotes />
-      </motion.div>
-
-      <motion.div variants={itemVariants}>
+      <motion.div variants={itemVariants} className="px-4 md:px-8">
         <Letter />
       </motion.div>
 
-      <footer className="py-10 text-center relative overflow-hidden">
-        <div className="max-w-md mx-auto mb-6 h-px bg-pink-100" />
+      <footer className="relative overflow-hidden px-4 py-16 text-center md:px-8">
+        <div className="mx-auto mb-6 h-px max-w-md bg-[#e2c9bd]" />
         <div className="space-y-4">
-          <p className="text-gray-400 text-sm tracking-widest uppercase font-bold">Made with Love</p>
-          <h5 className="text-3xl font-serif font-black text-gray-800 italic">For {birthdayContent.recipientName}</h5>
-          <p className="text-pink-400 font-bold">(c) {new Date().getFullYear()} Forever Friends</p>
-          <div className="flex justify-center gap-4 mt-6 text-rose-200">
+          <p className="text-sm font-bold uppercase tracking-[0.32em] text-[#8d5b4c]">Made with love</p>
+          <h5 className="text-3xl font-black italic text-[#231815] md:text-4xl">For My Bestie</h5>
+          <p className="font-bold text-[#f05a7e]">&copy; {new Date().getFullYear()} Forever Friends</p>
+          <div className="mt-6 flex justify-center gap-4 text-[#d8b4a4]">
             <Heart size={20} fill="currentColor" />
             <Star size={20} fill="currentColor" />
             <Heart size={20} fill="currentColor" />

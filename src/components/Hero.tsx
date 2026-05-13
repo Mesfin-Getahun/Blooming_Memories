@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { motion, useScroll, useTransform, AnimatePresence, Variants } from 'framer-motion';
-import { Heart, PartyPopper, Sparkles, Calendar, Star } from 'lucide-react';
+import { motion, Variants, useScroll, useTransform } from 'framer-motion';
+import { ArrowRight, CakeSlice, Camera, Heart, PartyPopper, Sparkles } from 'lucide-react';
 import { toast } from 'sonner';
 import { useNavigate } from 'react-router-dom';
 import confetti from 'canvas-confetti';
@@ -9,41 +9,39 @@ import { birthdayContent } from '../content/birthdayContent';
 const Hero = () => {
   const navigate = useNavigate();
   const { scrollY } = useScroll();
-  const opacity = useTransform(scrollY, [0, 300], [1, 0]);
-  const yTranslate = useTransform(scrollY, [0, 500], [0, 100]);
+  const y = useTransform(scrollY, [0, 500], [0, 90]);
+  const opacity = useTransform(scrollY, [0, 360], [1, 0.3]);
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
+    const timer = window.setTimeout(() => {
       setIsLoaded(true);
       confetti({
-        particleCount: 50,
-        spread: 60,
-        origin: { y: 0.8 },
-        colors: ['#ff69b4', '#ffd700', '#ffffff'],
+        particleCount: 40,
+        spread: 55,
+        origin: { y: 0.75 },
+        colors: ['#f05a7e', '#ffb84d', '#fff2d8'],
         disableForReducedMotion: true,
       });
-    }, 500);
+    }, 350);
 
-    return () => clearTimeout(timer);
+    return () => window.clearTimeout(timer);
   }, []);
 
   const handleCelebrate = () => {
     confetti({
-      particleCount: 150,
-      spread: 70,
-      origin: { y: 0.6 },
-      colors: ['#ff69b4', '#ff1493', '#ffd700', '#ffffff'],
+      particleCount: 160,
+      spread: 80,
+      origin: { y: 0.62 },
+      colors: ['#f05a7e', '#f28f3b', '#fff2d8', '#8d5b4c'],
     });
 
-    toast.success('Yay!', {
-      description: `Something magical is waiting for you, ${birthdayContent.recipientName}!`,
-      duration: 2000,
+    toast.success('Memory lane unlocked', {
+      description: `The surprise is ready for ${birthdayContent.recipientName}.`,
+      duration: 2200,
     });
 
-    setTimeout(() => {
-      navigate('/surprise');
-    }, 1000);
+    window.setTimeout(() => navigate('/surprise'), 900);
   };
 
   const containerVariants: Variants = {
@@ -51,247 +49,122 @@ const Hero = () => {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.15,
-        delayChildren: 0.3,
+        staggerChildren: 0.12,
+        delayChildren: 0.15,
       },
     },
   };
 
   const itemVariants: Variants = {
-    hidden: { y: 40, opacity: 0, scale: 0.95 },
+    hidden: { opacity: 0, y: 24 },
     visible: {
-      y: 0,
       opacity: 1,
-      scale: 1,
+      y: 0,
       transition: {
-        type: 'spring',
-        stiffness: 100,
-        damping: 15,
+        duration: 0.8,
+        ease: 'easeOut',
       },
     },
   };
 
-  const imageVariants: Variants = {
-    hidden: { scale: 0, rotate: -15, opacity: 0 },
-    visible: {
-      scale: 1,
-      rotate: 0,
-      opacity: 1,
-      transition: {
-        type: 'spring',
-        stiffness: 120,
-        damping: 12,
-        delay: 0.2,
-      },
-    },
-  };
-
-  const letterVariants: Variants = {
-    hidden: { y: 50, opacity: 0 },
-    visible: (i: number) => ({
-      y: 0,
-      opacity: 1,
-      transition: {
-        delay: i * 0.05 + 0.8,
-        type: 'spring',
-        stiffness: 150,
-        damping: 10,
-      },
-    }),
-  };
+  const heroImage = birthdayContent.heroMontage[0] ?? birthdayContent.allMemoryImages[0] ?? '/gebeya.webp';
 
   return (
-    <section className="relative min-h-[100vh] flex flex-col items-center justify-center text-center overflow-hidden pt-10 pb-20">
-      <motion.div
-        style={{ y: yTranslate, opacity }}
-        className="absolute inset-0 z-0 pointer-events-none"
-      >
-        <motion.img
-          initial={{ scale: 1.2, opacity: 0 }}
-          animate={{ scale: 1, opacity: 0.25 }}
-          transition={{ duration: 2, ease: 'easeOut' }}
-          src="https://storage.googleapis.com/dala-prod-public-storage/generated-images/df88d20c-57ed-4e6c-80f0-6229741cdc32/floral-bg-dc9a9f67-1774801842787.webp"
-          alt="Background Pattern"
-          className="w-full h-full object-cover"
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#fffdfa]" />
+    <section className="relative isolate overflow-hidden px-4 pb-14 pt-6 md:px-8 md:pb-20 md:pt-10">
+      <div className="absolute inset-0 -z-20 bg-[radial-gradient(circle_at_top,_rgba(255,243,224,0.95),_rgba(255,250,245,0.92)_36%,_rgba(248,229,221,0.8)_70%,_rgba(233,214,207,0.45)_100%)]" />
+      <motion.div style={{ y, opacity }} className="absolute inset-0 -z-10">
+        <div className="absolute left-[-10%] top-[6%] h-72 w-72 rounded-full bg-[#f6b26b]/30 blur-3xl" />
+        <div className="absolute right-[-5%] top-[10%] h-96 w-96 rounded-full bg-[#f05a7e]/20 blur-3xl" />
+        <div className="absolute bottom-[-10%] left-[20%] h-80 w-80 rounded-full bg-[#f8e0c8] blur-3xl" />
+        <div className="memory-grid absolute inset-x-0 top-0 h-full opacity-40" />
       </motion.div>
-
-      <AnimatePresence>
-        {isLoaded &&
-          [...Array(12)].map((_, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, scale: 0, x: 0, y: 0 }}
-              animate={{
-                opacity: [0, 0.4, 0],
-                scale: [0, Math.random() + 0.5, 0],
-                x: (Math.random() - 0.5) * 800,
-                y: (Math.random() - 0.5) * 800,
-              }}
-              transition={{
-                duration: Math.random() * 5 + 5,
-                repeat: Infinity,
-                delay: Math.random() * 5,
-                ease: 'linear',
-              }}
-              className="absolute z-0 text-pink-200 pointer-events-none"
-            >
-              <Star size={Math.random() * 15 + 10} fill="currentColor" />
-            </motion.div>
-          ))}
-      </AnimatePresence>
 
       <motion.div
         variants={containerVariants}
         initial="hidden"
         animate={isLoaded ? 'visible' : 'hidden'}
-        className="z-10 max-w-6xl w-full flex flex-col items-center px-4"
+        className="mx-auto flex min-h-[92vh] max-w-5xl flex-col items-center justify-center gap-8"
       >
-        <motion.div variants={itemVariants} className="mb-8 flex items-center gap-3">
-          <div className="h-[1px] w-12 bg-rose-200" />
-          <span className="px-5 py-2 bg-rose-50 text-rose-500 rounded-full text-xs md:text-sm font-black tracking-[0.3em] uppercase flex items-center gap-2 shadow-sm border border-rose-100/50">
-            <Calendar size={14} className="mb-0.5" />
-            {birthdayContent.celebrationDate}
-          </span>
-          <div className="h-[1px] w-12 bg-rose-200" />
-        </motion.div>
+        <motion.div variants={itemVariants} className="relative mx-auto w-full max-w-sm md:max-w-md">
+          <div className="absolute -inset-5 rounded-[3rem] bg-[radial-gradient(circle,_rgba(240,90,126,0.18),_transparent_70%)] blur-2xl" />
+          <div className="relative overflow-hidden rounded-[2.5rem] border-[10px] border-white bg-white shadow-[0_30px_80px_rgba(35,24,21,0.16)]">
+            <img src={heroImage} alt={birthdayContent.recipientName} className="h-[26rem] w-full object-cover md:h-[32rem]" />
+            <div className="absolute inset-0 bg-[linear-gradient(180deg,_rgba(255,255,255,0.06),_rgba(35,24,21,0.15)_55%,_rgba(35,24,21,0.45)_100%)]" />
+            <div className="absolute left-4 top-4 rounded-full bg-[#f05a7e] px-4 py-2 text-[11px] font-black uppercase tracking-[0.28em] text-white shadow-lg">
+              Happy Birthday
+            </div>
+            <div className="absolute bottom-4 left-4 right-4 rounded-[1.6rem] border border-white/30 bg-white/18 p-4 text-left text-white backdrop-blur-xl">
+              <p className="text-[11px] font-black uppercase tracking-[0.32em] text-[#ffe2d3]">{birthdayContent.introBadge}</p>
+              <h1 className="mt-2 text-3xl font-black leading-tight tracking-[-0.04em] md:text-4xl">
+                Happy Birthday, my bestie
+              </h1>
+              <p className="mt-2 text-sm leading-6 text-white/88 md:text-base">{birthdayContent.recipientName}, today is all about you.</p>
+            </div>
+          </div>
 
-        <div className="flex flex-col md:flex-row items-center justify-center gap-6 md:gap-12 mb-10 w-full">
-          <motion.div variants={imageVariants} className="relative group order-2 md:order-1">
-            <motion.div
-              animate={{
-                y: [0, -10, 0],
-                rotate: [0, -1, 1, 0],
-                scale: [1, 1.02, 1],
-              }}
-              transition={{
-                duration: 8,
-                repeat: Infinity,
-                ease: 'easeInOut',
-                delay: 1,
-              }}
-              className="relative w-64 h-64 md:w-80 md:h-80 rounded-[3rem] border-[12px] border-white shadow-[0_32px_64px_-16px_rgba(0,0,0,0.15)] overflow-hidden"
-            >
-              <img
-                src={birthdayContent.moments[0]?.images[0] ?? '/gebeya.webp'}
-                alt={birthdayContent.recipientName}
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-pink-500/10 via-transparent to-transparent pointer-events-none" />
-            </motion.div>
-
-            <motion.div
-              animate={{
-                scale: [1, 1.2, 1],
-                opacity: [0.7, 1, 0.7],
-                rotate: [0, -15, 0],
-              }}
-              transition={{ duration: 4, repeat: Infinity, delay: 2.5 }}
-              className="absolute -top-6 -left-6 bg-pink-400 p-4 rounded-2xl shadow-xl text-white z-20"
-            >
-              <Heart size={28} className="fill-current" />
-            </motion.div>
-          </motion.div>
-
-          <motion.div variants={imageVariants} className="relative group order-1 md:order-2">
-            <motion.div
-              animate={{
-                y: [0, -15, 0],
-                rotate: [0, 1, -1, 0],
-                scale: [1, 1.01, 1],
-              }}
-              transition={{
-                duration: 10,
-                repeat: Infinity,
-                ease: 'easeInOut',
-              }}
-              className="relative w-64 h-64 md:w-80 md:h-80 rounded-[3rem] border-[12px] border-white shadow-[0_32px_64px_-16px_rgba(0,0,0,0.15)] overflow-hidden"
-            >
-              <img
-                src="https://storage.googleapis.com/dala-prod-public-storage/generated-images/df88d20c-57ed-4e6c-80f0-6229741cdc32/birthday-cake-with-candles-4f589466-1774810995521.webp"
-                alt="Beautiful Birthday Cake"
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-pink-500/10 via-transparent to-transparent pointer-events-none" />
-            </motion.div>
-
-            <motion.div
-              animate={{
-                scale: [1, 1.2, 1],
-                opacity: [0.7, 1, 0.7],
-                rotate: [0, 15, 0],
-              }}
-              transition={{ duration: 4, repeat: Infinity }}
-              className="absolute -top-6 -right-6 bg-rose-500 p-4 rounded-2xl shadow-xl text-white z-20"
-            >
-              <Sparkles size={28} />
-            </motion.div>
-          </motion.div>
-        </div>
-
-        <div className="mb-6 flex flex-col items-center">
-          <h1 className="text-6xl md:text-8xl font-black text-gray-900 font-serif tracking-tighter leading-none mb-4 flex flex-wrap justify-center gap-x-3">
-            <span className="flex">
-              {'Happy'.split('').map((char, i) => (
-                <motion.span key={i} custom={i} variants={letterVariants} className="inline-block">
-                  {char}
-                </motion.span>
-              ))}
-            </span>
-            <span className="flex">
-              {'Birthday'.split('').map((char, i) => (
-                <motion.span
-                  key={i}
-                  custom={i + 5}
-                  variants={letterVariants}
-                  className="inline-block text-rose-500 italic"
-                >
-                  {char}
-                </motion.span>
-              ))}
-            </span>
-          </h1>
-
-          <motion.span variants={itemVariants} className="text-3xl md:text-5xl font-black text-pink-400 tracking-tight">
-            {birthdayContent.relationshipLabel} {birthdayContent.recipientName}!
-          </motion.span>
-        </div>
-
-        <motion.p
-          variants={itemVariants}
-          className="text-lg md:text-2xl text-gray-600 mb-12 max-w-2xl mx-auto italic font-serif leading-relaxed px-6"
-        >
-          &quot;{birthdayContent.heroQuote}&quot;
-        </motion.p>
-
-        <motion.div variants={itemVariants} className="relative group">
-          <div className="absolute -inset-1 bg-gradient-to-r from-pink-400 to-rose-500 rounded-full blur opacity-25 group-hover:opacity-75 transition duration-1000" />
-          <motion.button
-            whileHover={{ scale: 1.05, boxShadow: '0 20px 40px -10px rgba(244, 63, 94, 0.3)' }}
-            whileTap={{ scale: 0.95 }}
-            onClick={handleCelebrate}
-            className="relative px-10 py-5 bg-rose-500 text-white rounded-full font-bold text-xl shadow-lg flex items-center gap-4 mx-auto"
+          <motion.div
+            animate={{ y: [0, -8, 0], rotate: [0, 2, 0] }}
+            transition={{ duration: 3.6, repeat: Infinity, ease: 'easeInOut' }}
+            className="absolute -right-3 -top-4 rounded-[1.6rem] bg-[#fff7ef] px-4 py-3 text-[#f28f3b] shadow-[0_18px_35px_rgba(242,143,59,0.22)]"
           >
-            <PartyPopper size={24} className="group-hover:rotate-12 transition-transform" />
-            <span>Open Your Surprise</span>
-            <Heart size={24} className="group-hover:scale-125 transition-transform fill-current" />
-          </motion.button>
-        </motion.div>
-      </motion.div>
+            <CakeSlice size={28} />
+          </motion.div>
 
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 2, duration: 1 }}
-        className="absolute bottom-6 left-1/2 -translate-x-1/2 text-gray-400 flex flex-col items-center gap-2"
-      >
-        <span className="text-xs font-bold uppercase tracking-widest opacity-60">Scroll</span>
-        <motion.div
-          animate={{ y: [0, 10, 0] }}
-          transition={{ duration: 2, repeat: Infinity }}
-          className="w-px h-10 bg-gradient-to-b from-rose-200 to-transparent"
-        />
+          <motion.div
+            animate={{ y: [0, -6, 0], rotate: [0, -6, 0] }}
+            transition={{ duration: 3.2, repeat: Infinity, ease: 'easeInOut', delay: 0.4 }}
+            className="absolute -left-3 bottom-24 rounded-full bg-white p-3 text-[#f05a7e] shadow-[0_18px_35px_rgba(240,90,126,0.18)]"
+          >
+            <PartyPopper size={24} />
+          </motion.div>
+        </motion.div>
+
+        <div className="relative z-10 text-center">
+          <motion.div
+            variants={itemVariants}
+            className="mb-4 inline-flex items-center gap-3 rounded-full border border-white/70 bg-white/75 px-5 py-2 text-[11px] font-black uppercase tracking-[0.35em] text-[#8d5b4c] shadow-[0_14px_35px_rgba(141,91,76,0.08)] backdrop-blur-xl"
+          >
+            <Sparkles size={15} className="text-[#f05a7e]" />
+            {birthdayContent.introBadge}
+          </motion.div>
+
+          <motion.h1
+            variants={itemVariants}
+            className="mx-auto max-w-3xl text-4xl font-black leading-[0.95] tracking-[-0.04em] text-[#231815] md:text-6xl"
+          >
+            Happy birthday to the bestie who makes every memory feel special.
+          </motion.h1>
+
+          <motion.p
+            variants={itemVariants}
+            className="mx-auto mt-4 max-w-2xl text-base leading-7 text-[#5f463d] md:text-lg"
+          >
+            A tiny birthday surprise made with love, laughter, and our favorite moments together.
+          </motion.p>
+
+          <motion.div variants={itemVariants} className="mt-8 flex flex-wrap justify-center gap-4">
+            <motion.button
+              whileHover={{ scale: 1.03, y: -4 }}
+              whileTap={{ scale: 0.97 }}
+              onClick={handleCelebrate}
+              className="group flex items-center gap-3 rounded-full bg-[#231815] px-7 py-4 text-sm font-black uppercase tracking-[0.28em] text-[#fff7f1] shadow-[0_20px_45px_rgba(35,24,21,0.24)] transition-colors hover:bg-[#f05a7e]"
+            >
+              <PartyPopper size={18} />
+              Open the surprise
+              <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
+            </motion.button>
+
+            <motion.a
+              whileHover={{ scale: 1.03, y: -4 }}
+              whileTap={{ scale: 0.97 }}
+              href="#memory-gallery"
+              className="flex items-center gap-3 rounded-full border border-[#d8b4a4] bg-white/80 px-7 py-4 text-sm font-black uppercase tracking-[0.28em] text-[#8d5b4c] shadow-[0_16px_35px_rgba(141,91,76,0.08)] backdrop-blur-xl"
+            >
+              <Camera size={18} />
+              Open our memories
+            </motion.a>
+          </motion.div>
+        </div>
       </motion.div>
     </section>
   );

@@ -1,12 +1,31 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Heart, Stars, Sparkles, PartyPopper, ArrowLeft } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import confetti from 'canvas-confetti';
 import { birthdayContent } from '../content/birthdayContent';
 
+interface FloatingElement {
+  id: number;
+  x: string;
+  duration: number;
+  delay: number;
+  size: number;
+  icon: 'heart' | 'sparkles';
+}
+
 const SurprisePage = () => {
   const navigate = useNavigate();
+  const [floatingElements] = useState<FloatingElement[]>(() =>
+    Array.from({ length: 15 }, (_, id) => ({
+      id,
+      x: `${Math.random() * 100}vw`,
+      duration: Math.random() * 5 + 5,
+      delay: Math.random() * 5,
+      size: Math.random() * 30 + 10,
+      icon: id % 2 === 0 ? 'heart' : 'sparkles',
+    })),
+  );
 
   useEffect(() => {
     const duration = 10 * 1000;
@@ -30,34 +49,32 @@ const SurprisePage = () => {
     return () => clearInterval(interval);
   }, []);
 
-  const floatingElements = Array.from({ length: 15 });
-
   return (
-    <div className="min-h-screen bg-gradient-to-br from-rose-400 via-pink-500 to-amber-400 flex flex-col items-center justify-center p-6 overflow-hidden relative text-center">
+    <div className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-[linear-gradient(135deg,_#f05a7e,_#f28f3b,_#f7c58b)] p-6 text-center">
       <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none opacity-30">
-        {floatingElements.map((_, i) => (
+        {floatingElements.map((element) => (
           <motion.div
-            key={i}
+            key={element.id}
             initial={{
               opacity: 0,
               y: '110vh',
-              x: `${Math.random() * 100}vw`,
+              x: element.x,
             }}
             animate={{
               opacity: [0, 1, 0],
               y: '-10vh',
               transition: {
-                duration: Math.random() * 5 + 5,
+                duration: element.duration,
                 repeat: Infinity,
-                delay: Math.random() * 5,
+                delay: element.delay,
               },
             }}
             className="absolute text-white"
           >
-            {i % 2 === 0 ? (
-              <Heart size={Math.random() * 30 + 10} fill="currentColor" />
+            {element.icon === 'heart' ? (
+              <Heart size={element.size} fill="currentColor" />
             ) : (
-              <Sparkles size={Math.random() * 30 + 10} />
+              <Sparkles size={element.size} />
             )}
           </motion.div>
         ))}
@@ -76,7 +93,7 @@ const SurprisePage = () => {
       <motion.div
         initial={{ scale: 0.8, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
-        className="relative z-10 max-w-4xl"
+        className="relative z-10 max-w-5xl"
       >
         <div className="flex justify-center gap-4 mb-8">
           <PartyPopper size={48} className="text-amber-300" />
@@ -93,21 +110,37 @@ const SurprisePage = () => {
           deserve.
         </p>
 
-        <motion.div
-          initial={{ y: 50, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.5 }}
-          className="bg-white/20 backdrop-blur-lg p-10 rounded-[3rem] border border-white/30 shadow-2xl"
-        >
-          <p className="text-white text-2xl md:text-3xl font-serif italic leading-relaxed">
-            "{birthdayContent.heroQuote}"
-          </p>
-          <div className="mt-8 flex justify-center gap-2 text-rose-200">
-            <Heart fill="currentColor" />
-            <Heart fill="currentColor" />
-            <Heart fill="currentColor" />
-          </div>
-        </motion.div>
+        <div className="grid gap-6 md:grid-cols-[1.1fr_0.9fr]">
+          <motion.div
+            initial={{ y: 50, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.5 }}
+            className="rounded-[3rem] border border-white/30 bg-white/20 p-10 shadow-2xl backdrop-blur-lg"
+          >
+            <p className="text-white text-2xl md:text-3xl font-serif italic leading-relaxed">
+              "{birthdayContent.heroQuote}"
+            </p>
+            <div className="mt-8 flex justify-center gap-2 text-rose-200">
+              <Heart fill="currentColor" />
+              <Heart fill="currentColor" />
+              <Heart fill="currentColor" />
+            </div>
+          </motion.div>
+
+          <motion.div
+            initial={{ y: 50, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.65 }}
+            className="rounded-[3rem] border border-white/30 bg-[#231815]/20 p-10 text-left text-white shadow-2xl backdrop-blur-lg"
+          >
+            <p className="text-xs font-black uppercase tracking-[0.38em] text-[#ffe0d0]">Birthday note</p>
+            <p className="mt-5 text-xl leading-9 md:text-2xl">
+              You are one of the easiest people to celebrate because you bring so much light, softness, and joy into the
+              lives around you. This little surprise is just my way of saying you matter, you are loved, and you make life
+              better.
+            </p>
+          </motion.div>
+        </div>
       </motion.div>
     </div>
   );

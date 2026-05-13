@@ -1,49 +1,281 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft, Heart, Camera } from 'lucide-react';
+import { ArrowLeft, Heart, Camera, Images } from 'lucide-react';
+import StoryDetailModal, { type StoryDetailItem } from '../components/StoryDetailModal';
 
 const fullGalleryImages = [
   {
-    url: 'https://storage.googleapis.com/dala-prod-public-storage/generated-images/df88d20c-57ed-4e6c-80f0-6229741cdc32/bestie-1-7a559248-1774801843407.webp',
-    title: 'Pure Happiness',
-    description: 'The day we laughed until our stomachs hurt. I will never forget that day.',
-    category: 'Laughs'
+    "title": "Moment on 20251109",
+    "description": "Captured together in perfect sync.",
+    "category": "Memories",
+    "urls": [
+      "/memories/Screenshot_20251109-210126.jpg",
+      "/memories/Screenshot_20251109-210149.jpg"
+    ]
   },
   {
-    url: 'https://storage.googleapis.com/dala-prod-public-storage/generated-images/df88d20c-57ed-4e6c-80f0-6229741cdc32/bestie-2-179a9015-1774801843408.webp',
-    title: 'Adventures Await',
-    description: 'Every path is better when we walk it together. Our random city walks are my favorite.',
-    category: 'Travel'
+    "title": "Moment on 20251119",
+    "description": "Captured together in perfect sync.",
+    "category": "Memories",
+    "urls": [
+      "/memories/IMG_20251119_114155_052.jpg"
+    ]
   },
   {
-    url: 'https://storage.googleapis.com/dala-prod-public-storage/generated-images/df88d20c-57ed-4e6c-80f0-6229741cdc32/bestie-3-cd2440bf-1774801849567.webp',
-    title: 'Sunset Dreams',
-    description: 'Watching the sky change colors and dreaming about our big future plans.',
-    category: 'Peace'
+    "title": "Moment on 20260103",
+    "description": "Captured together in perfect sync.",
+    "category": "Memories",
+    "urls": [
+      "/memories/IMG_20260103_111826_272.jpg",
+      "/memories/IMG_20260103_111831_116.jpg",
+      "/memories/IMG_20260103_111832_687.jpg",
+      "/memories/IMG_20260103_111837_507.jpg"
+    ]
   },
   {
-    url: 'https://storage.googleapis.com/dala-prod-public-storage/generated-images/df88d20c-57ed-4e6c-80f0-6229741cdc32/memory-lane-montage-c2b320ff-1774802491222.webp',
-    title: 'Bestie Bonding',
-    description: 'The little moments that make our friendship so strong and unbreakable.',
-    category: 'Love'
+    "title": "Moment on 20260108",
+    "description": "Captured together in perfect sync.",
+    "category": "Memories",
+    "urls": [
+      "/memories/IMG_20260108_095611_809.jpg",
+      "/memories/IMG_20260108_095703_613.jpg",
+      "/memories/IMG_20260108_100033_588.jpg",
+      "/memories/IMG_20260108_100606_582.jpg"
+    ]
   },
   {
-    url: 'https://storage.googleapis.com/dala-prod-public-storage/generated-images/df88d20c-57ed-4e6c-80f0-6229741cdc32/adventure-gallery-overlay-cc9ec8ce-1774802490920.webp',
-    title: 'Pinned Memories',
-    description: 'A collection of all the polaroids we took and the tickets we saved.',
-    category: 'Scrapbook'
+    "title": "Moment on 20260113",
+    "description": "Captured together in perfect sync.",
+    "category": "Memories",
+    "urls": [
+      "/memories/IMG_20260113_180143_644.jpg",
+      "/memories/IMG_20260113_181951_772.jpg",
+      "/memories/IMG_20260113_182308_278.jpg"
+    ]
   },
   {
-    url: 'https://storage.googleapis.com/dala-prod-public-storage/generated-images/df88d20c-57ed-4e6c-80f0-6229741cdc32/heartfelt-letter-aesthetic-445f93e6-1774802491343.webp',
-    title: 'Deep Talks',
-    description: 'The late night conversations that mean more than anything else.',
-    category: 'Soul'
+    "title": "Moment on 20260202",
+    "description": "Captured together in perfect sync.",
+    "category": "Memories",
+    "urls": [
+      "/memories/Screenshot_20260202-172119.jpg"
+    ]
+  },
+  {
+    "title": "Moment on 20260214",
+    "description": "Captured together in perfect sync.",
+    "category": "Memories",
+    "urls": [
+      "/memories/Screenshot_20260214-180215.jpg"
+    ]
+  },
+  {
+    "title": "Moment on 20260218",
+    "description": "Captured together in perfect sync.",
+    "category": "Memories",
+    "urls": [
+      "/memories/IMG_20260218_132108_998.jpg",
+      "/memories/IMG_20260218_132111_067.jpg",
+      "/memories/IMG_20260218_151744_913.jpg",
+      "/memories/IMG_20260218_151905_018.jpg",
+      "/memories/IMG_20260218_152049_854.jpg",
+      "/memories/IMG_20260218_152057_688.jpg",
+      "/memories/IMG_20260218_152122_415.jpg",
+      "/memories/IMG_20260218_170434_507.jpg",
+      "/memories/IMG_20260218_181107_063.jpg"
+    ]
+  },
+  {
+    "title": "Moment on 20260413",
+    "description": "Captured together in perfect sync.",
+    "category": "Memories",
+    "urls": [
+      "/memories/Screenshot_20260413-113232.jpg",
+      "/memories/Screenshot_20260413-113240.jpg",
+      "/memories/Screenshot_20260413-120213.jpg",
+      "/memories/Screenshot_20260413-120303.jpg",
+      "/memories/Screenshot_20260413-120350.jpg",
+      "/memories/Screenshot_20260413-120405.jpg",
+      "/memories/Screenshot_20260413-120421.jpg"
+    ]
+  },
+  {
+    "title": "Moment on 2026-04-07 (Part 1)",
+    "description": "Captured together in perfect sync.",
+    "category": "Memories",
+    "urls": [
+      "/memories/photo_10_2026-04-07_21-26-29.jpg",
+      "/memories/photo_10_2026-04-07_21-26-54.jpg",
+      "/memories/photo_10_2026-04-07_21-27-20.jpg",
+      "/memories/photo_11_2026-04-07_21-27-20.jpg",
+      "/memories/photo_12_2026-04-07_21-27-20.jpg",
+      "/memories/photo_13_2026-04-07_21-27-20.jpg",
+      "/memories/photo_14_2026-04-07_21-27-20.jpg",
+      "/memories/photo_15_2026-04-07_21-27-20.jpg",
+      "/memories/photo_16_2026-04-07_21-27-20.jpg"
+    ]
+  },
+  {
+    "title": "Moment on 2026-04-07 (Part 2)",
+    "description": "Captured together in perfect sync.",
+    "category": "Memories",
+    "urls": [
+      "/memories/photo_17_2026-04-07_21-27-20.jpg",
+      "/memories/photo_18_2026-04-07_21-27-20.jpg",
+      "/memories/photo_19_2026-04-07_21-27-20.jpg",
+      "/memories/photo_1_2026-04-07_21-26-29.jpg",
+      "/memories/photo_1_2026-04-07_21-26-54.jpg",
+      "/memories/photo_1_2026-04-07_21-27-03.jpg",
+      "/memories/photo_1_2026-04-07_21-27-20.jpg",
+      "/memories/photo_20_2026-04-07_21-27-20.jpg",
+      "/memories/photo_21_2026-04-07_21-27-20.jpg"
+    ]
+  },
+  {
+    "title": "Moment on 2026-04-07 (Part 3)",
+    "description": "Captured together in perfect sync.",
+    "category": "Memories",
+    "urls": [
+      "/memories/photo_22_2026-04-07_21-27-20.jpg",
+      "/memories/photo_23_2026-04-07_21-27-20.jpg",
+      "/memories/photo_2_2026-04-07_21-26-29.jpg",
+      "/memories/photo_2_2026-04-07_21-26-54.jpg",
+      "/memories/photo_2_2026-04-07_21-27-03.jpg",
+      "/memories/photo_2_2026-04-07_21-27-20.jpg",
+      "/memories/photo_3_2026-04-07_21-26-29.jpg",
+      "/memories/photo_3_2026-04-07_21-26-54.jpg",
+      "/memories/photo_3_2026-04-07_21-27-03.jpg"
+    ]
+  },
+  {
+    "title": "Moment on 2026-04-07 (Part 4)",
+    "description": "Captured together in perfect sync.",
+    "category": "Memories",
+    "urls": [
+      "/memories/photo_3_2026-04-07_21-27-20.jpg",
+      "/memories/photo_4_2026-04-07_21-26-29.jpg",
+      "/memories/photo_4_2026-04-07_21-26-54.jpg",
+      "/memories/photo_4_2026-04-07_21-27-03.jpg",
+      "/memories/photo_4_2026-04-07_21-27-20.jpg",
+      "/memories/photo_5_2026-04-07_21-26-29.jpg",
+      "/memories/photo_5_2026-04-07_21-26-54.jpg",
+      "/memories/photo_5_2026-04-07_21-27-03.jpg",
+      "/memories/photo_5_2026-04-07_21-27-20.jpg"
+    ]
+  },
+  {
+    "title": "Moment on 2026-04-07 (Part 5)",
+    "description": "Captured together in perfect sync.",
+    "category": "Memories",
+    "urls": [
+      "/memories/photo_6_2026-04-07_21-26-29.jpg",
+      "/memories/photo_6_2026-04-07_21-26-54.jpg",
+      "/memories/photo_6_2026-04-07_21-27-03.jpg",
+      "/memories/photo_6_2026-04-07_21-27-20.jpg",
+      "/memories/photo_7_2026-04-07_21-26-29.jpg",
+      "/memories/photo_7_2026-04-07_21-26-54.jpg",
+      "/memories/photo_7_2026-04-07_21-27-03.jpg",
+      "/memories/photo_7_2026-04-07_21-27-20.jpg",
+      "/memories/photo_8_2026-04-07_21-26-29.jpg"
+    ]
+  },
+  {
+    "title": "Moment on 2026-04-07 (Part 6)",
+    "description": "Captured together in perfect sync.",
+    "category": "Memories",
+    "urls": [
+      "/memories/photo_8_2026-04-07_21-26-54.jpg",
+      "/memories/photo_8_2026-04-07_21-27-03.jpg",
+      "/memories/photo_8_2026-04-07_21-27-20.jpg",
+      "/memories/photo_9_2026-04-07_21-26-29.jpg",
+      "/memories/photo_9_2026-04-07_21-26-54.jpg",
+      "/memories/photo_9_2026-04-07_21-27-03.jpg",
+      "/memories/photo_9_2026-04-07_21-27-20.jpg"
+    ]
+  },
+  {
+    "title": "Snapchat Memories (Part 1)",
+    "description": "Captured together in perfect sync.",
+    "category": "Memories",
+    "urls": [
+      "/memories/Snapchat-1025405750.jpg",
+      "/memories/Snapchat-1028650149.jpg",
+      "/memories/Snapchat-1034650492.jpg",
+      "/memories/Snapchat-1045073573.jpg",
+      "/memories/Snapchat-1064943570.jpg",
+      "/memories/Snapchat-1100318839.jpg",
+      "/memories/Snapchat-1114799599.jpg",
+      "/memories/Snapchat-1177643341.jpg",
+      "/memories/Snapchat-1306918670.jpg"
+    ]
+  },
+  {
+    "title": "Snapchat Memories (Part 2)",
+    "description": "Captured together in perfect sync.",
+    "category": "Memories",
+    "urls": [
+      "/memories/Snapchat-1366819838.jpg",
+      "/memories/Snapchat-1402737241.jpg",
+      "/memories/Snapchat-1620853624.jpg",
+      "/memories/Snapchat-1621509561.jpg",
+      "/memories/Snapchat-1658538093.jpg",
+      "/memories/Snapchat-1738655121.jpg",
+      "/memories/Snapchat-174698694.jpg",
+      "/memories/Snapchat-1798796476.jpg",
+      "/memories/Snapchat-1835888232.jpg"
+    ]
+  },
+  {
+    "title": "Snapchat Memories (Part 3)",
+    "description": "Captured together in perfect sync.",
+    "category": "Memories",
+    "urls": [
+      "/memories/Snapchat-189167645.jpg",
+      "/memories/Snapchat-197374908.jpg",
+      "/memories/Snapchat-2041685368.jpg",
+      "/memories/Snapchat-2091231754.jpg",
+      "/memories/Snapchat-211604926.jpg",
+      "/memories/Snapchat-239099353.jpg",
+      "/memories/Snapchat-33638924.jpg",
+      "/memories/Snapchat-391877438.jpg",
+      "/memories/Snapchat-463258493.jpg"
+    ]
+  },
+  {
+    "title": "Snapchat Memories (Part 4)",
+    "description": "Captured together in perfect sync.",
+    "category": "Memories",
+    "urls": [
+      "/memories/Snapchat-5428205.jpg",
+      "/memories/Snapchat-746185491 (2).jpg",
+      "/memories/Snapchat-766216686.jpg",
+      "/memories/Snapchat-892456745.jpg"
+    ]
+  },
+  {
+    "title": "Mixed Memories",
+    "description": "Random moments that bring a smile.",
+    "category": "Mixed",
+    "urls": [
+      "/memories/-2147483648_-220169.jpg"
+    ]
   }
 ];
 
 const FullGallery: React.FC = () => {
   const navigate = useNavigate();
+  const [selectedMoment, setSelectedMoment] = useState<StoryDetailItem | null>(null);
+
+  const openModal = (img: typeof fullGalleryImages[0]) => {
+    setSelectedMoment({
+      title: img.title,
+      text: img.description,
+      tag: img.category,
+      location: "Full Gallery",
+      images: img.urls
+    });
+  };
 
   return (
     <div className="min-h-screen bg-white pb-20">
@@ -95,16 +327,26 @@ const FullGallery: React.FC = () => {
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
               whileHover={{ y: -10 }}
-              className="bg-white rounded-[2rem] overflow-hidden shadow-[0_20px_50px_-20px_rgba(0,0,0,0.15)] border border-rose-50"
+              onClick={() => openModal(img)}
+              className="bg-white rounded-[2rem] overflow-hidden shadow-[0_20px_50px_-20px_rgba(0,0,0,0.15)] border border-rose-50 cursor-pointer"
             >
               <div className="relative aspect-[4/5] group overflow-hidden">
                 <img 
-                  src={img.url} 
+                  src={img.urls[0]} 
                   alt={img.title} 
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                 />
-                <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-md px-4 py-1 rounded-full text-xs font-bold text-rose-500 tracking-wider uppercase">
-                  {img.category}
+                
+                <div className="absolute top-4 right-4 flex items-center gap-2">
+                  {img.urls.length > 1 && (
+                    <div className="bg-black/40 backdrop-blur-md px-3 py-1 rounded-full text-xs font-bold text-white flex items-center gap-1">
+                      <Images size={14} />
+                      {img.urls.length}
+                    </div>
+                  )}
+                  <div className="bg-white/90 backdrop-blur-md px-4 py-1 rounded-full text-xs font-bold text-rose-500 tracking-wider uppercase">
+                    {img.category}
+                  </div>
                 </div>
               </div>
               <div className="p-8">
@@ -120,6 +362,11 @@ const FullGallery: React.FC = () => {
           ))}
         </div>
       </main>
+
+      <StoryDetailModal
+        item={selectedMoment}
+        onClose={() => setSelectedMoment(null)}
+      />
     </div>
   );
 };
