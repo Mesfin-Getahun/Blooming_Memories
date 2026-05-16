@@ -25,7 +25,7 @@ export interface BirthdayWish {
   text: string;
 }
 
-const fallbackImage = '/gebeya.webp';
+const fallbackImage = memoryImagePaths.length > 0 ? memoryImagePaths[0] : '';
 const allMemoryImages = memoryImagePaths.length > 0 ? [...memoryImagePaths] : [fallbackImage];
 
 const splitIntoGroups = (images: string[]) => {
@@ -163,13 +163,13 @@ export const birthdayContent = {
     "This is not just a gallery. It is a little birthday world made to remind you how loved you are, how unforgettable you are, and how beautiful life feels with you in it.",
   giftRibbon: "Wrapped with laughter, memories, and love",
   letterGreeting: "Dear Merrye,",
-  letterSignature: "Your Partner in Crime",
+  letterSignature: "Your ...",
   letterClosing: "Always yours,",
-  letterParagraphs: [
-    "I wanted this little corner of the internet to feel like a love letter to our friendship. Not something generic, but something that feels like us.",
-    "Thank you for being the person who shows up with kindness, with laughter, and with the kind of energy that makes hard days easier to survive. Life feels lighter with you in it.",
-    "I hope this year gives you soft mornings, loud laughter, answered prayers, and the kind of happiness that keeps finding you again and again. You deserve that and so much more.",
-  ],
+  letterParagraphs:[
+"I really wanted this little corner of the internet to feel like a love letter to our friendship, because a standard 'happy birthday' could never capture what you mean to me. It needed to be something that feels completely like us.",
+"Thank you for always showing up for me with so much warmth, kindness, and contagious laughter. You have this beautiful way of making the heaviest days feel a million times lighter just by being in them.",
+"For this next year of your life, my wish for you is soft mornings, loud laughter, answered prayers, and a deep kind of happiness that follows you wherever you go. You deserve the absolute world. Happy Birthday!"
+],
   highlightNotes: [
     {
       title: "Your laugh changes the weather",

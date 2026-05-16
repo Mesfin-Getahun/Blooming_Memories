@@ -97,7 +97,7 @@ const MusicPlayer = () => {
         ref={audioRef}
         loop
         preload="none"
-        src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-17.mp3"
+        src="/music.mp3"
       />
     </div>
   );
