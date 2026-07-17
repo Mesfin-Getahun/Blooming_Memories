@@ -133,7 +133,7 @@ const PhotoGallery = ({ featuredOnly = false }: PhotoGalleryProps) => {
                           <img
                             src={image}
                             alt={`${moment.title} preview ${previewIndex + 1}`}
-                            className="aspect-square w-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                            className="aspect-square w-full object-cover transition-transform duration-500 group-hover:scale-105"
                           />
                         </div>
                       ))}
