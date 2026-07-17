@@ -97,7 +97,7 @@ const MusicPlayer = () => {
         ref={audioRef}
         loop
         preload="none"
-        src="/music.mp3"
+        src="/music%202.mp3"
       />
     </div>
   );

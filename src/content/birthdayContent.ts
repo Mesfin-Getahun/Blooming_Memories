@@ -75,10 +75,21 @@ const splitIntoGroups = (images: string[]) => {
 };
 
 // With exactly 5 groups returned, we can map them directly to our blueprints!
-const autoGroups = splitIntoGroups(allMemoryImages);
-const heroMontage = allMemoryImages.slice(0, 5);
+const newImagesOnly = allMemoryImages.filter(img => img.includes('photo_2026-07-17_')).slice(2);
+const oldImagesOnly = allMemoryImages.filter(img => !img.includes('photo_2026-07-17_'));
+const autoGroups = splitIntoGroups(oldImagesOnly);
+const heroMontage = [...newImagesOnly, ...oldImagesOnly].slice(0, 5);
 
 const momentBlueprints = [
+  {
+    id: 'moment-new',
+    title: 'Still Making Memories',
+    description:
+      'Still continuing making memories and turning ordinary days into our absolute favorites. Here is to all the days ahead.',
+    date: 'Right now',
+    location: 'Everywhere',
+    colSpan: 'md:col-span-1 xl:col-span-7',
+  },
   {
     id: 'moment-1',
     title: 'Golden Hour Chaos',
@@ -86,7 +97,7 @@ const momentBlueprints = [
       'The kind of memory that feels loud, soft, and impossible to forget all at once. Every frame feels like a line from our favorite inside joke.',
     date: 'Opening chapter',
     location: 'From the memories folder',
-    colSpan: 'md:col-span-2',
+    colSpan: 'md:col-span-1 xl:col-span-5',
   },
   {
     id: 'moment-2',
@@ -95,6 +106,7 @@ const momentBlueprints = [
       'A little collection of glances, laughter, poses, and unplanned moments that somehow turned into something beautiful.',
     date: 'Little moments',
     location: 'Straight from our camera roll',
+    colSpan: 'md:col-span-2 xl:col-span-12',
   },
   {
     id: 'moment-3',
@@ -103,7 +115,7 @@ const momentBlueprints = [
       'This one is the full cinematic reel: the confidence, the warmth, the silly bits, and the snapshots that make the whole story feel alive.',
     date: 'The full reel',
     location: 'Every frame that mattered',
-    colSpan: 'md:col-span-3',
+    colSpan: 'md:col-span-2 xl:col-span-12',
   },
 ] as const;
 
@@ -143,7 +155,12 @@ const extendedBlueprints = [
   },
 ] as const;
 
-const moments = momentBlueprints.map((blueprint, index) => buildMoment(blueprint, autoGroups[index] || []));
+const moments = momentBlueprints.map((blueprint, index) => {
+  if (blueprint.id === 'moment-new') {
+    return buildMoment(blueprint, newImagesOnly);
+  }
+  return buildMoment(blueprint, autoGroups[index - 1] || []);
+});
 
 // We simply map the remaining extended moments to the 4th and 5th group from our 5 generated autoGroups
 const extendedMoments = extendedBlueprints.map((blueprint, index) =>

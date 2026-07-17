@@ -15,7 +15,8 @@ const PhotoGallery = ({ featuredOnly = false }: PhotoGalleryProps) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   const displayMoments = featuredOnly ? birthdayContent.moments : [...birthdayContent.moments, ...birthdayContent.extendedMoments];
-  const spotlightImages = birthdayContent.allMemoryImages.slice(0, 10);
+  const allNewImages = birthdayContent.allMemoryImages.filter(img => img.includes('photo_2026-07-17_'));
+  const spotlightImages = allNewImages.length > 0 ? allNewImages.slice(0, 10) : birthdayContent.allMemoryImages.slice(0, 10);
 
   const openLightbox = (moment: MemoryMoment) => {
     setSelectedMoment(moment);
@@ -63,7 +64,7 @@ const PhotoGallery = ({ featuredOnly = false }: PhotoGalleryProps) => {
 
       <div className="grid grid-cols-1 gap-8 md:grid-cols-2 xl:grid-cols-12">
         {displayMoments.map((moment, index) => {
-          const spanClass = featuredOnly
+          const spanClass = moment.colSpan || (featuredOnly
             ? index === 0
               ? 'xl:col-span-7'
               : index === 1
@@ -73,7 +74,9 @@ const PhotoGallery = ({ featuredOnly = false }: PhotoGalleryProps) => {
               ? 'xl:col-span-7'
               : index % 3 === 1
                 ? 'xl:col-span-5'
-                : 'xl:col-span-6';
+                : 'xl:col-span-6');
+
+          const isFullWidth = spanClass?.includes('col-span-12');
 
           return (
             <motion.article
@@ -85,14 +88,14 @@ const PhotoGallery = ({ featuredOnly = false }: PhotoGalleryProps) => {
               onClick={() => openLightbox(moment)}
               className={`group relative cursor-pointer overflow-hidden rounded-[2.5rem] border border-white/70 bg-[#fff9f4] shadow-[0_30px_80px_rgba(35,24,21,0.12)] transition-transform duration-500 hover:-translate-y-2 ${spanClass}`}
             >
-              <div className="grid gap-0 lg:grid-cols-[1.15fr_0.85fr]">
-                <div className="relative min-h-[22rem] overflow-hidden md:min-h-[28rem]">
+              <div className={`grid gap-0 ${isFullWidth ? 'lg:grid-cols-[1.15fr_0.85fr]' : ''}`}>
+                <div className={`relative overflow-hidden ${isFullWidth ? 'min-h-[22rem] md:min-h-[26rem] xl:min-h-[30rem]' : 'min-h-[16rem] md:min-h-[20rem] xl:min-h-[24rem]'}`}>
                   <img
                     src={moment.images[0]}
                     alt={moment.title}
-                    className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    className="absolute inset-0 h-full w-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#231815]/85 via-[#231815]/10 to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#231815]/90 via-[#231815]/10 to-transparent" />
                   <div className="absolute left-5 top-5 rounded-full border border-white/25 bg-black/25 px-4 py-2 text-[10px] font-black uppercase tracking-[0.28em] text-white backdrop-blur-xl">
                     {moment.images.length} frame{moment.images.length > 1 ? 's' : ''}
                   </div>
@@ -130,7 +133,7 @@ const PhotoGallery = ({ featuredOnly = false }: PhotoGalleryProps) => {
                           <img
                             src={image}
                             alt={`${moment.title} preview ${previewIndex + 1}`}
-                            className="aspect-square w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                            className="aspect-square w-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
                           />
                         </div>
                       ))}

@@ -67,7 +67,7 @@ const Hero = () => {
     },
   };
 
-  const heroImage = birthdayContent.heroMontage[0] ?? birthdayContent.allMemoryImages[0] ?? '/gebeya.webp';
+  const heroImage = '/memories/photo_2026-07-17_13-40-55.jpg';
 
   return (
     <section className="relative isolate overflow-hidden px-4 pb-14 pt-6 md:px-8 md:pb-20 md:pt-10">
@@ -88,17 +88,17 @@ const Hero = () => {
         <motion.div variants={itemVariants} className="relative mx-auto w-full max-w-sm md:max-w-md">
           <div className="absolute -inset-5 rounded-[3rem] bg-[radial-gradient(circle,_rgba(240,90,126,0.18),_transparent_70%)] blur-2xl" />
           <div className="relative overflow-hidden rounded-[2.5rem] border-[10px] border-white bg-white shadow-[0_30px_80px_rgba(35,24,21,0.16)]">
-            <img src={heroImage} alt={birthdayContent.recipientName} className="h-[26rem] w-full object-cover md:h-[32rem]" />
+            <img src={heroImage} alt={birthdayContent.recipientName} className="h-[26rem] w-full object-cover object-top md:h-[32rem]" />
             <div className="absolute inset-0 bg-[linear-gradient(180deg,_rgba(255,255,255,0.06),_rgba(35,24,21,0.15)_55%,_rgba(35,24,21,0.45)_100%)]" />
             <div className="absolute left-4 top-4 rounded-full bg-[#f05a7e] px-4 py-2 text-[11px] font-black uppercase tracking-[0.28em] text-white shadow-lg">
               Happy Birthday
             </div>
-            <div className="absolute bottom-4 left-4 right-4 rounded-[1.6rem] border border-white/30 bg-white/18 p-4 text-left text-white backdrop-blur-xl">
-              <p className="text-[11px] font-black uppercase tracking-[0.32em] text-[#ffe2d3]">{birthdayContent.introBadge}</p>
-              <h1 className="mt-2 text-3xl font-black leading-tight tracking-[-0.04em] md:text-4xl">
+            <div className="absolute bottom-0 left-0 right-0 border-t border-white/30 bg-white/15 px-5 py-3 text-left text-white backdrop-blur-xl">
+              <p className="text-[9px] font-black uppercase tracking-[0.32em] text-[#ffe2d3]">{birthdayContent.introBadge}</p>
+              <h1 className="mt-1 text-2xl font-black leading-tight tracking-[-0.04em] md:text-3xl">
                 Happy Birthday, my bestie
               </h1>
-              <p className="mt-2 text-sm leading-6 text-white/88 md:text-base">{birthdayContent.recipientName}, today is all about you.</p>
+              <p className="mt-1 text-xs leading-snug text-white/88 md:text-sm">{birthdayContent.recipientName}, today is all about you.</p>
             </div>
           </div>
 
